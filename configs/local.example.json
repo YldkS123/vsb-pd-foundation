@@ -1,0 +1,15 @@
+{
+  "metadata_path": "../data/raw/metadata_train.csv",
+  "raw_parquet_path": "../data/raw/train.parquet",
+  "candidate_split_path": "../results_step10_fresh_split/fresh_measurement_split.csv",
+  "artifact_root": "../artifacts",
+  "signal_length": 800000,
+  "sampling_rate_hz": 40000000,
+  "window_policy": {
+    "window_length": 8192,
+    "uniform_count": 4,
+    "event_count": 4,
+    "dedup_iou": 0.5,
+    "fallback_grid_size": 256
+  }
+}

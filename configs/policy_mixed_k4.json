@@ -1,0 +1,15 @@
+{
+  "metadata_path": "C:/Users/hrfxgfx/Desktop/1111/metadata_train.csv",
+  "raw_parquet_path": "C:/Users/hrfxgfx/Desktop/1111/train.parquet",
+  "candidate_split_path": "C:/Users/hrfxgfx/Documents/机器学习论文/results_step10_fresh_split/fresh_measurement_split.csv",
+  "artifact_root": "C:/Users/hrfxgfx/Desktop/1112/artifacts",
+  "signal_length": 800000,
+  "sampling_rate_hz": 40000000,
+  "window_policy": {
+    "window_length": 8192,
+    "uniform_count": 2,
+    "event_count": 2,
+    "dedup_iou": 0.5,
+    "fallback_grid_size": 256
+  }
+}

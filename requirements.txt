@@ -1,0 +1,9 @@
+# Environment used for all reported results (verified 2026-08)
+python>=3.10
+torch>=2.1,<2.14          # 2.13.0 (CUDA) verified
+numpy>=1.26,<3            # 2.2.1 verified
+scipy>=1.11               # 1.15.1 verified
+scikit-learn>=1.3         # 1.6.1 verified
+pandas>=2.0               # 2.3.1 verified
+matplotlib>=3.7           # 3.10.0 verified
+lightgbm>=4.0             # verified 4.x

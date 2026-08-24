@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+
+# Local config / data
+configs/local.json
+data/raw/
+data/
+
+# Large artifacts (raw window caches, model checkpoints, OOF npz are large;
+# locks/receipts/small jsons stay in the repo as reproducible evidence)
+artifacts/windows/
+results/cached_features/
+results/**/*.npz
+results/**/*.pt
+results/stage1_tim_chunk1_backup/
+results/ir_eval/fold_ckpt_*.pt
+.trash_tmp_20260807/
+
+# Internal / tooling (not part of the paper repo)
+.agent-teams/
+.dsh-bin/
+.superpowers/
+dsh-agent-teams/
+dsh-routing-suite/
+_patch_e4_harvard.py
+
+# Generated bulk outputs
+results/generated/
+
+# OS
+Thumbs.db
+.DS_Store

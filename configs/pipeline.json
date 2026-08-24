@@ -1,0 +1,11 @@
+{
+  "signal_length": 800000,
+  "sampling_rate_hz": 40000000,
+  "window_policy": {
+    "window_length": 8192,
+    "uniform_count": 4,
+    "event_count": 4,
+    "dedup_iou": 0.5,
+    "fallback_grid_size": 256
+  }
+}

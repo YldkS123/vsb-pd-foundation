@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=75,<76"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vsb-pd"
+version = "0.1.0"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.26,<2",
+  "pandas>=2.3,<3",
+  "pyarrow>=25,<26",
+  "scipy>=1.15,<2",
+  "scikit-learn>=1.7,<2",
+  "torch>=2.13,<3",
+  "lightgbm>=4.5,<5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.4,<9"]
+
+[project.scripts]
+vsb-pipeline = "vsb_pd.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
