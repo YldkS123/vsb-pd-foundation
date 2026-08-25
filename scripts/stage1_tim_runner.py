@@ -452,7 +452,7 @@ def main() -> None:
                    device, labels_np)
 
     for enc in [e.strip() for e in args.encoders.split(",") if e.strip()]:
-        if enc not in ("cnn", "simple_cnn", "resnet1d", "inceptiontime", "tf_cnn"):
+        if enc not in ("cnn", "simple_cnn", "resnet1d", "inceptiontime", "tf_cnn", "lt_transformer"):
             raise ValueError(f"Unknown encoder: {enc}")
         if enc == "cnn":
             continue  # matched cnn row reuses e4_ctx_concat

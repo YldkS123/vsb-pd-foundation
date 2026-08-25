@@ -197,6 +197,50 @@ class SimpleCNNEncoder(nn.Module):
         return out.reshape(B, K, -1)
 
 
+class LightTransformerEncoder(nn.Module):
+    """Lightweight patch-based Transformer window encoder for industrial AI
+    (TII track). Patches the 8192-sample window into P tokens, adds learnable
+    positional embeddings, and runs a compact 2-layer Transformer encoder;
+    global avg+max pooling projects to hidden_dim.
+
+    Deliberately compact (~0.15M params) so it fits the lightweight,
+    edge-deployable narrative while modernizing the time-series modeling
+    compared with pure-CNN encoders.
+    """
+
+    def __init__(self, window_length: int = 8192, hidden_dim: int = 128,
+                 patch: int = 64, d_model: int = 96, nhead: int = 4,
+                 num_layers: int = 2, dim_feedforward: int = 192,
+                 dropout: float = 0.1):
+        super().__init__()
+        self.patch = patch
+        n_patches = window_length // patch  # 8192/64 = 128 tokens
+        self.proj = nn.Conv1d(1, d_model, kernel_size=patch, stride=patch)
+        self.pos = nn.Parameter(torch.zeros(1, n_patches, d_model))
+        nn.init.trunc_normal_(self.pos, std=0.02)
+        enc_layer = nn.TransformerEncoderLayer(
+            d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward,
+            dropout=dropout, activation="gelu", batch_first=True,
+            norm_first=True,
+        )
+        self.encoder = nn.TransformerEncoder(enc_layer, num_layers=num_layers)
+        self.norm = nn.LayerNorm(d_model)
+        self.head = nn.Linear(d_model * 2, hidden_dim)
+
+    def forward(self, windows: torch.Tensor, features: torch.Tensor | None = None) -> torch.Tensor:
+        B, K, L = windows.shape
+        x = windows.reshape(B * K, 1, L)
+        x = self.proj(x)                    # (BK, d_model, n_patches)
+        x = x.transpose(1, 2)               # (BK, n_patches, d_model)
+        x = x + self.pos
+        x = self.encoder(x)
+        x = self.norm(x)
+        avg = x.mean(dim=1)
+        mx = x.max(dim=1).values
+        out = self.head(torch.cat([avg, mx], dim=-1))
+        return out.reshape(B, K, -1)
+
+
 class TimWindowEncoder(nn.Module):
     """Uniform preprocessing wrapper for the TIM matched-encoder comparison.
 
@@ -235,6 +279,10 @@ class TimWindowEncoder(nn.Module):
             # Zheng et al. 2022 time-frequency CNN, re-tested under the E4
             # protocol (B2): STFT spectrogram + 2D CNN window encoder.
             self.inner = TFDCNNEncoder(window_length, hidden_dim)
+        elif encoder_name == "lt_transformer":
+            # Lightweight patch Transformer (TII track): modern time-series
+            # modeling at edge-compatible capacity.
+            self.inner = LightTransformerEncoder(window_length, hidden_dim)
         else:
             raise ValueError(f"Unknown TIM encoder: {encoder_name}")
         self.preprocess = RobustNormalize(window_length)
