@@ -175,7 +175,16 @@ $$\hat{y}_p = \sigma\big(\mathbf{w}_p^\top [\mathbf{z}_p, \mathbf{c}] + b_p\big)
 | simple_cnn | 0.776/0.812 | 0.991/0.993 | 0.987/0.990 |
 | **LPT** | 0.729/0.669 | **0.998/0.998** | **0.997/0.998** |
 
-**Data-scale hypothesis confirmed**: the Transformer (weaker on 7.4K-sample VSB) becomes the best encoder on the 46K-sample external dataset (0.998 from-scratch vs 0.991 CNN)—encoder choice is data-scale dependent; TFE remains the cost-efficient choice at small industrial data scales. Cross-device validation (figshare 28523090, C1→C2) reproduces historical fine-tune results (ROC 0.80–0.91) [prior-ref].
+**Data-scale hypothesis confirmed**: the Transformer (weaker on 7.4K-sample VSB) becomes the best encoder on the 46K-sample external dataset (0.998 from-scratch vs 0.991 CNN)—encoder choice is data-scale dependent; TFE remains the cost-efficient choice at small industrial data scales.
+
+**Cross-device validation (figshare 28523090, oscilloscope captures, C1→C2)**. Two tasks under a frozen external protocol (zero-shot / from-scratch / fine-tune on the C1-trained model evaluated on the C2 device):
+
+| Task | Zero-shot ROC/PR | From-scratch ROC/PR | Fine-tune ROC/PR |
+|---|---|---|---|
+| PD vs background (C2, n=639) | 0.432 / 0.633 | 0.811 / 0.907 | 0.796 / 0.903 |
+| PD vs corona (C2, n=319) | 0.547 / 0.701 | **0.959 / 0.973** | 0.905 / 0.952 |
+
+Zero-shot transfer fails across acquisition devices (ROC ≈ 0.43–0.55), but a small amount of target-domain data restores strong performance (from-scratch/fine-tune ROC 0.80–0.96)—the deployment implication is that on-site calibration data is required when the sensing chain changes, consistent with industrial per-site commissioning practice.
 
 ### F. Robustness, Baselines, and Statistical Power
 
@@ -223,7 +232,9 @@ We presented a cost-efficient and trustworthy industrial AI framework for PD mon
 [7] Z. Fei et al., "Partial discharge pattern recognition based on ensembled simple CNN and quadratic SVM," *Energies*, vol. 17, p. 2443, 2024.
 [8] Detection Transformer-based deep learning for multisource PD recognition, 2023–2024.
 [9] Self-supervised temporal contrastive learning for PD anomaly detection, 2024.
-[10]–[12] IEEE TII industrial AI / asset monitoring / trustworthy AI works (to be finalized).
+[10] L. Liu et al., "Flexible generalized demodulation for intelligent bearing fault diagnosis under nonstationary conditions," *IEEE Trans. Ind. Informat.*, 2024 (TII industrial fault diagnosis).
+[11] "Lifelong monitoring of bearing-rotor systems over whole life cycle: An emerging paradigm," *IEEE Trans. Ind. Informat.*, 2024 (TII lifelong condition monitoring).
+[12] "Physics-inspired sparse voiceprint sensing for bearing fault diagnosis," *IEEE Trans. Ind. Informat.*, 2024 (TII sensing-informed diagnosis).
 [13] M. Ilse, J. M. Tomczak, and M. Welling, "Attention-based deep multiple instance learning," *ICML*, 2018.
 [14] A. Bardes, J. Ponce, and Y. LeCun, "VICReg: Variance-invariance-covariance regularization for self-supervised learning," *ICLR*, 2022.
 [15] S. Misak et al., "Problems associated with covered conductor fault detection," *EPQU*, 2011.
@@ -232,9 +243,9 @@ We presented a cost-efficient and trustworthy industrial AI framework for PD mon
 
 ---
 
-## Figures (planned)
+## Figures
 
-- **Fig. 1** — Framework overview: sensing → CAS sampling → TFE/LPT encoding → attention MIL → context-concat → noisy-OR decision; with the three cost axes annotated.
-- **Fig. 2** — Sampling-rate cost-performance curve (x: rate; y: PR-AUC; annotated 83% retained at 5 MHz).
-- **Fig. 3** — Encoder comparison: VSB vs external dataset performance (data-scale hypothesis).
-- **Fig. 4** — Labeling-cost curve (x: label ratio; y: PR-AUC; VICReg negative result overlaid).
+- **Fig. 1** — Framework overview: three-phase sensing → CAS sampling (K=8, 8.2% data) → TFE/LPT encoding → attention MIL → context-concat → noisy-OR decision; three cost axes annotated (sensing rate, label ratio, leakage-safe evaluation) (`figures_tii/fig1_framework.png`).
+- **Fig. 2** — Sampling-rate cost-performance curve (x: rate; y: PR-AUC; 83% retained at 5 MHz) (`figures_tii/fig2_sampling_rate.png`).
+- **Fig. 3** — Encoder comparison: VSB vs external dataset performance — data-scale hypothesis (`figures_tii/fig3_encoder_scale.png`).
+- **Fig. 4** — Labeling-cost curve (x: label ratio; y: PR-AUC; VICReg negative result overlaid) (`figures_tii/fig4_labeling_cost.png`).
