@@ -22,8 +22,6 @@ We are pleased to submit our manuscript entitled **"Cost-Efficient and Trustwort
 
 **Use of real industrial data.** All experiments use the VSB Power Line Fault Detection dataset (real covered-conductor distribution-line PD recordings) as the main industrial benchmark, complemented by the figshare motor-PD dataset (45,970 test samples) and cross-device oscilloscope captures (28523090, C1→C2), plus an independent held-out partition archived at Harvard Dataverse. We position the work within the IEC 60270 / IEC TS 62478 measurement framework as a waveform-level online-monitoring route.
 
-**Relation to our companion submission.** A companion manuscript on the measurement-science aspects of the underlying framework (coverage-aware sampling and leakage-safe evaluation) is under review at the *IEEE Transactions on Instrumentation and Measurement* [1]. The present manuscript is distinct in contribution and content: it advances the industrial-AI deployment perspective—time-frequency encoder upgrade (TFE, 0.703), sampling-rate hardware optimization (8×), labeling-cost and self-supervision studies, and multi-dataset industrial validation—none of which appear in the TIM companion. The two manuscripts cross-reference each other, and we declare this relationship transparently to the reviewers.
-
 **Commitments to the reviewers.** Full source code, experiment scripts, locked split files, evaluation receipts, and environment specification are publicly available at https://github.com/YldkS123/vsb-pd-foundation. All numbers originate from locked experimental records.
 
 **Declarations.** This manuscript has not been published previously and is not under consideration elsewhere; all authors have read and approved the submission; there are no conflicts of interest.
@@ -38,7 +36,3 @@ Sincerely,
 ---
 
 **Enclosures**: Manuscript (IEEEtran, double column), figures, code repository link.
-
----
-
-[1] 本团队：Measurement-cost-aware sampling and hierarchical weakly supervised detection for three-phase partial discharge monitoring, *IEEE Trans. Instrum. Meas.*, submitted (2026).

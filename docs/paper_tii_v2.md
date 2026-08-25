@@ -239,7 +239,6 @@ We presented a cost-efficient and trustworthy industrial AI framework for PD mon
 [14] A. Bardes, J. Ponce, and Y. LeCun, "VICReg: Variance-invariance-covariance regularization for self-supervised learning," *ICLR*, 2022.
 [15] S. Misak et al., "Problems associated with covered conductor fault detection," *EPQU*, 2011.
 [16] G. M. Hashmi and M. Lehtonen, "On-line PD detection for condition monitoring of covered-conductor overhead distribution networks," *ICEE*, 2008.
-[TIM-ref] 本团队：Measurement-cost-aware sampling and hierarchical weakly supervised detection for three-phase PD monitoring, *IEEE TIM*, submitted 2026（互引）.
 
 ---
 
