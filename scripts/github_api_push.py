@@ -78,28 +78,34 @@ def main():
     tree = api("trees", "POST", {"tree": entries})
     print("tree:", tree["sha"])
 
-    # 3. create commit (no parent for a fresh repo; if main exists, use its head)
+    # 3. create commit: use existing main as parent by default; with
+    #    FORCE_REPLACE, create an orphan commit and force the ref (used when
+    #    the local history was rewritten).
+    import os as _os
+    force_replace = _os.environ.get("GITHUB_PUSH_FORCE_REPLACE", "") == "1"
     try:
         existing = api("refs/heads/main")
-        parent_sha = existing["object"]["sha"]
-        print("existing main:", parent_sha)
+        parent_sha = existing["object"]["sha"] if not force_replace else None
+        print("existing main:", existing["object"]["sha"])
     except Exception:
         parent_sha = None
         print("no existing main ref")
+    import datetime
+    iso_date = datetime.datetime.fromtimestamp(at, datetime.timezone(datetime.timedelta(hours=8))).isoformat()
     commit = api("commits", "POST", {
         "message": msg,
         "tree": tree["sha"],
         "parents": [parent_sha] if parent_sha else [],
-        "author": {"name": an, "email": ae, "date": f"{at} +0800"},
-        "committer": {"name": an, "email": ae, "date": f"{at} +0800"},
+        "author": {"name": an, "email": ae, "date": iso_date},
+        "committer": {"name": an, "email": ae, "date": iso_date},
     })
     print("commit:", commit["sha"])
 
     # 4. update ref
-    if parent_sha:
-        api("refs/heads/main", "PATCH", {"sha": commit["sha"], "force": True})
+    if parent_sha and not force_replace:
+        api("refs/heads/main", "PATCH", {"sha": commit["sha"], "force": False})
     else:
-        api("refs", "POST", {"ref": "refs/heads/main", "sha": commit["sha"]})
+        api("refs/heads/main", "PATCH", {"sha": commit["sha"], "force": True})
     print("DONE -> https://github.com/YldkS123/vsb-pd-foundation")
 
 

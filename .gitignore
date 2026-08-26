@@ -34,3 +34,6 @@ results/generated/
 # OS
 Thumbs.db
 .DS_Store
+
+# TIM backup (not published)
+_trash_tim/

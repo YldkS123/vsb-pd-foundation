@@ -240,18 +240,37 @@ def refs_to_bibitem(md: str) -> str:
 
 
 def main():
-    md = SRC.read_text(encoding="utf-8")
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--src", default=str(SRC))
+    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--title", default="Measurement-Cost-Aware Sampling and Hierarchical Weakly Supervised\nDetection for Three-Phase Partial Discharge Monitoring")
+    ap.add_argument("--journal", default="Journal of IEEE Transactions on Instrumentation and Measurement")
+    ap.add_argument("--running", default="Measurement-Cost-Aware Sampling and Hierarchical Weakly Supervised Detection for Three-Phase Partial Discharge Monitoring")
+    args = ap.parse_args()
+
+    md = Path(args.src).read_text(encoding="utf-8")
     # extract abstract
     am = re.search(r"## Abstract\n\n(.*?)(?=\n\n\*\*Index Terms)", md, re.S)
     abstract = am.group(1).replace("\n", " ") if am else "%~ABSTRACT~%"
     body = md_to_tex(md)
     bib = refs_to_bibitem(md)
-    tex = PRE.replace("%~ABSTRACT~%", esc_tex(abstract))
+    pre = PRE.replace("%~ABSTRACT~%", esc_tex(abstract))
+    pre = pre.replace(
+        "Measurement-Cost-Aware Sampling and Hierarchical Weakly Supervised\nDetection for Three-Phase Partial Discharge Monitoring",
+        args.title.replace("\\n", "\n"))
+    pre = pre.replace(
+        "Journal of IEEE Transactions on Instrumentation and Measurement,~Vol.~XX, No.~XX, 2026",
+        args.journal + ",~Vol.~XX, No.~XX, 2026")
+    pre = pre.replace(
+        "Measurement-Cost-Aware Sampling and Hierarchical Weakly Supervised Detection for Three-Phase Partial Discharge Monitoring",
+        args.running)
+    tex = pre
     tex += body
     tex += "\n\\begin{thebibliography}{00}\n" + bib + "\n\\end{thebibliography}\n"
     tex += POST
-    OUT.write_text(tex, encoding="utf-8")
-    print(f"Wrote {OUT} ({len(tex)} chars)")
+    Path(args.out).write_text(tex, encoding="utf-8")
+    print(f"Wrote {args.out} ({len(tex)} chars)")
 
 
 if __name__ == "__main__":
