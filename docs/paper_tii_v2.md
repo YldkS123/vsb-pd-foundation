@@ -1,9 +1,10 @@
 # Cost-Efficient and Trustworthy Industrial AI for Partial Discharge Monitoring: Time-Frequency Encoding with Coverage-Aware Sampling and Hierarchical Weak Supervision
 
-> **TII 版论文草稿 v2**（2026-08-25）
+> **TII 版论文 v3（2026-08-25）**
+> **作者：杨上（第一作者，山东大学 2024 级本科生）；张斌（通讯作者，山东大学教授）**
 > 目标期刊：IEEE Transactions on Industrial Informatics (TII, IF≈11, 中科院1区Top)
-> 与 TIM 版区分：本稿聚焦工业 AI 部署（时频编码升级、传感硬件成本、多数据集、可信 AI）；TIM 版聚焦测量科学。
-> 两稿互引 + cover letter 互相披露。
+> 状态：独立投稿（不投 TIM）——论文完全自包含
+> 单位：山东大学（Shandong University）
 
 ---
 

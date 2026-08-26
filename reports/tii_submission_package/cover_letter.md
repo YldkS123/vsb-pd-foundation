@@ -30,8 +30,14 @@ We believe this work is well aligned with the scope of TII—industrial AI, cond
 
 Sincerely,
 
-[Author names and affiliations]
-[Corresponding author, email, ORCID]
+**Shang Yang** (First Author)
+Undergraduate Student, Class of 2024
+Shandong University, Weihai, China
+Email: yangshangky@163.com
+
+**Bin Zhang** (Corresponding Author)
+Professor, Shandong University, China
+Email: [to-be-filled]
 
 ---
 
