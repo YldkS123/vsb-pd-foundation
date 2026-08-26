@@ -178,14 +178,14 @@ $$\hat{y}_p = \sigma\big(\mathbf{w}_p^\top [\mathbf{z}_p, \mathbf{c}] + b_p\big)
 
 **Data-scale hypothesis confirmed**: the Transformer (weaker on 7.4K-sample VSB) becomes the best encoder on the 46K-sample external dataset (0.998 from-scratch vs 0.991 CNN)—encoder choice is data-scale dependent; TFE remains the cost-efficient choice at small industrial data scales.
 
-**Cross-device validation (figshare 28523090, oscilloscope captures, C1→C2)**. Two tasks under a frozen external protocol (zero-shot / from-scratch / fine-tune on the C1-trained model evaluated on the C2 device):
+**Cross-device validation (figshare 28523090, oscilloscope captures, C1→C2)**. The E4 mainline (simple_cnn encoder) is evaluated under a frozen external protocol (zero-shot / from-scratch / fine-tune on the C1-trained model evaluated on the C2 device):
 
 | Task | Zero-shot ROC/PR | From-scratch ROC/PR | Fine-tune ROC/PR |
 |---|---|---|---|
-| PD vs background (C2, n=639) | 0.432 / 0.633 | 0.811 / 0.907 | 0.796 / 0.903 |
-| PD vs corona (C2, n=319) | 0.547 / 0.701 | **0.959 / 0.973** | 0.905 / 0.952 |
+| PD vs background (C2, n=160) | 0.493 / 0.665 | 0.641 / 0.815 | **0.832 / 0.919** |
+| PD vs corona (C2, n=213) | 0.635 / 0.624 | 0.982 / 0.981 | **0.988 / 0.988** |
 
-Zero-shot transfer fails across acquisition devices (ROC ≈ 0.43–0.55), but a small amount of target-domain data restores strong performance (from-scratch/fine-tune ROC 0.80–0.96)—the deployment implication is that on-site calibration data is required when the sensing chain changes, consistent with industrial per-site commissioning practice.
+Zero-shot transfer fails across acquisition devices (ROC ≈ 0.49–0.64), but a small amount of target-domain data restores strong performance (fine-tune ROC 0.83–0.99, exceeding the historical 80k-model results of 0.80–0.91)—the deployment implication is that on-site calibration data is required when the sensing chain changes, consistent with industrial per-site commissioning practice (scripts `tii_28523090_e4_3arm.py`; outputs `results/tii_external/summary_28523090_e4.json`).
 
 ### F. Robustness, Baselines, and Statistical Power
 
